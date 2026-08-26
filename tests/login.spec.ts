@@ -105,3 +105,25 @@ test.describe('Perfex CRM - Admin login', () => {
     await loginPage.expectStillOnLoginPage();
   });
 });
+
+test.describe('Perfex CRM - Logout', () => {
+  test('TC_LOGIN_15 - logging out returns the user to the login page @regression', async ({
+    loggedInDashboard,
+    loginPage,
+  }) => {
+    await loggedInDashboard.logout();
+
+    await loginPage.expectStillOnLoginPage();
+  });
+
+  test('TC_LOGIN_16 - the dashboard is unreachable after logging out @regression', async ({
+    loggedInDashboard,
+    loginPage,
+    page,
+  }) => {
+    await loggedInDashboard.logout();
+    await page.goto(ROUTES.dashboard);
+
+    await loginPage.expectStillOnLoginPage();
+  });
+});
