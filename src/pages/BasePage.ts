@@ -12,9 +12,25 @@ export abstract class BasePage {
   /** Path this page lives at, relative to BASE_URL. */
   abstract readonly path: string;
 
-  async goto(path: string = this.path): Promise<void> {
+  /**
+   * Navigate to a route. The public demo instance occasionally stalls on a
+   * request, so a slow load is retried instead of failing the whole test.
+   */
+  async goto(path: string = this.path, attempts = 3): Promise<void> {
     logger.step(`Navigate to ${ENV.baseURL}${path}`);
-    await this.page.goto(path, { waitUntil: 'domcontentloaded' });
+    let lastError: unknown;
+
+    for (let attempt = 1; attempt <= attempts; attempt++) {
+      try {
+        await this.page.goto(path, { waitUntil: 'domcontentloaded', timeout: 30_000 });
+        return;
+      } catch (error) {
+        lastError = error;
+        logger.warn(`Navigation to ${path} timed out (attempt ${attempt}/${attempts}), retrying`);
+      }
+    }
+
+    throw lastError;
   }
 
   async currentUrl(): Promise<string> {

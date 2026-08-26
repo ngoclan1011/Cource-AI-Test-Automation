@@ -38,7 +38,7 @@ export const ENV = {
 
   headless: bool('HEADLESS', true),
   slowMo: num('SLOW_MO', 0),
-  timeout: num('TIMEOUT', 60_000),
+  timeout: num('TIMEOUT', 120_000),
   retries: num('RETRIES', process.env.CI ? 2 : 0),
   workers: num('WORKERS', 4),
   isCI: !!process.env.CI,
