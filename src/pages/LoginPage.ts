@@ -67,10 +67,9 @@ export class LoginPage extends BasePage {
   }
 
   async submit(): Promise<void> {
-    await Promise.all([
-      this.page.waitForLoadState('domcontentloaded'),
-      this.click(this.loginButton, 'Login'),
-    ]);
+    await expect(this.loginButton).toBeEnabled();
+    await this.click(this.loginButton, 'Login');
+    await this.page.waitForLoadState('domcontentloaded');
   }
 
   /** Fill the form and submit. Does not assert the outcome. */
