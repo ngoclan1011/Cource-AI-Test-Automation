@@ -7,7 +7,7 @@ Xây dựng theo mô hình **Page Object Model + Fixtures + Data-Driven Testing*
 
 ---
 
-## 1. Cấu trúc thư mục
+## 1. Cấu trúc thư mục update ver2.0
 
 ```
 .
